@@ -1,20 +1,21 @@
 version: "3"
 
-vscode:
-  hostname: vscode
-  image: sharp6292/codeserver:latest
-  environment:
-    - PASSWORD=${VSCODEPASS}
+services:
+  vscode:
+    hostname: vscode
+    image: sharp6292/codeserver:latest
+    environment:
+      - PASSWORD=${VSCODEPASS}
 
-  volumes:
-    - "mcaq_projects:/home/coder/project"
-    - "mcaq_home:/home/coder"
-    - "mcaq_dev:/dev/live"
-    - "mcaq_privdev:/dev/privlive"
-    - "/var/run/docker.sock:/var/run/docker.sock"
+    volumes:
+      - "mcaq_projects:/home/coder/project"
+      - "mcaq_home:/home/coder"
+      - "mcaq_dev:/dev/live"
+      - "mcaq_privdev:/dev/privlive"
+      - "/var/run/docker.sock:/var/run/docker.sock"
 
-  command: code-server --auth password
-  restart: always
+    command: code-server --auth password
+    restart: always
 
 
 volumes:
