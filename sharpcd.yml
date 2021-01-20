@@ -5,6 +5,6 @@ tasks:
     name: Code Server
     envfile: .env
     type: docker
-    sharpurl: https://62.171.151.39:5666
+    sharpurl: https://173.212.252.82:5666
     giturl: https://raw.githubusercontent.com/Sharpz7/
     compose: /codeserver/main/docker-compose.yml
