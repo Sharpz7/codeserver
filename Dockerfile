@@ -43,10 +43,6 @@ ENV SHELL /usr/bin/zsh
 # Other nice things
 RUN apt-get install -y neofetch
 
-# Create files.
-RUN touch /home/coder/.ssh/contabo.ssh &&\
-    touch /home/coder/.ssh/github.ssh
-
 RUN chown -R coder:coder /home/coder
 
 USER coder
