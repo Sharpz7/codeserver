@@ -1,22 +1,48 @@
 version: 2.1
 
 jobs:
+  create:
+    docker:
+      - image: python:3.7.3-slim-stretch
+
+    steps:
+      - checkout
+
+      - run:
+          name: Create Build Files
+          command: |
+            mkdir workspace
+            cd dockerfiles
+
+            mkdir builds
+            python build.py
+            cd ..
+
+            cp -a ./dockerfiles/builds/. ./workspace
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./workspace
+
   build:
     docker:
       - image: docker:stable
+
+    parallelism: 4
 
     steps:
       - checkout
 
       - setup_remote_docker
 
+      - attach_workspace:
+          at: .
+
       - run:
           name: "Build"
           command: |
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker pull sharp6292/codeserver:latest || true
-            docker build --cache-from sharp6292/codeserver:latest -t sharp6292/codeserver:latest .
-            docker push sharp6292/codeserver:latest
+            sh ./workspace/build-${CIRCLE_NODE_INDEX}.sh
 
   deploy:
     docker:
@@ -48,9 +74,12 @@ workflows:
   version: 2
   workflow:
     jobs:
-      - build:
-          context: General
+      - create
 
+      - build:
+          requires:
+            - create
+          context: General
 
       - deploy:
           context: General

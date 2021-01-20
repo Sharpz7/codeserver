@@ -1,6 +1,15 @@
 version: "3"
 
 services:
+  webdev:
+    image: sharp6292/codeserver-webdev
+
+    volumes:
+      - mcaq_dev:/dev/live
+      - mcaq_privdev:/dev/privlive
+
+    restart: always
+
   vscode:
     hostname: vscode
     image: sharp6292/codeserver:latest
