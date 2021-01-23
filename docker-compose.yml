@@ -26,7 +26,6 @@ services:
     command: code-server --auth password
     restart: always
 
-
 volumes:
   mcaq_projects:
     external: True
